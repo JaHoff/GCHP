@@ -57,10 +57,10 @@ respectively, in the run directory creation prompts.
 
 .. code-block:: console
 
-   $ singularity exec -B DATA_DIR:/ExtData -B WORK_DIR:/workdir gchp.sif /bin/bash -c ". ~/.bashrc && /opt/geos-chem/bin/createRunDir.sh"
+   $ singularity exec -B $HOME:$HOME -B DATA_DIR:/ExtData -B WORK_DIR:/workdir gchp.sif /bin/bash -c ". ~/.bashrc && /opt/geos-chem/bin/createRunDir.sh"
 
 
-Once the run directory is created, it will be available at `WORK_DIR` on your host machine. ``cd`` to `WORK_DIR`.
+Once the run directory is created, it will be available at `WORK_DIR` on your host machine. ``cd`` to `rundir` which is in your `WORK_DIR`.
 
 .. _setting_up_and_running_gchp_using_singularity:
 
@@ -74,7 +74,7 @@ We will also load MPI in this environment file (edit the first line below as app
 .. code-block:: console
 
    $ echo "module load openmpi/4.0.3" > ~/.container_run.rc
-   $ echo "export SINGULARITY_BINDPATH=\"DATA_DIR:/ExtData,RUN_DIR:/rundir\"" >> ~/.container_run.rc 
+   $ echo "export SINGULARITY_BINDPATH=\"$HOME:$HOME,DATA_DIR:/ExtData,RUN_DIR:/rundir\"" >> ~/.container_run.rc 
    $ ./setEnvironmentLink.sh ~/.container_run.rc
    $ source gchp.env
    
@@ -85,11 +85,11 @@ We will now move the pre-built `gchp` executable and example run scripts to the 
 .. code-block:: console
 
    $ rm runScriptSamples # remove broken link
-   $ singularity exec ../gchp.sif cp /opt/geos-chem/bin/gchp /rundir
-   $ singularity exec ../gchp.sif cp -rf /gc-src/run/runScriptSamples/ /rundir
+   $ singularity exec ../../gchp.sif cp /opt/geos-chem/bin/gchp /rundir
+   $ singularity exec ../../gchp.sif cp -rf /gc-src/run/runScriptSamples/ /rundir
 
 
-Before running GCHP in the container, we need to create an execution script to tell the container to load its internal environment before running GCHP.
+For versions prior to 13.4.1, before running GCHP in the container, we need to create an execution script to tell the container to load its internal environment before running GCHP.
 We'll call this script `internal_exec`.
 
 
@@ -106,8 +106,14 @@ Replace the typical execution line in the script (where ``mpirun`` or ``srun`` i
 
 .. code-block:: console
 
-   $ time mpirun singularity exec ../gchp.sif /rundir/internal_exec >> ${log}
+   $ time mpirun singularity exec ~/gchp.sif /rundir/internal_exec >> ${log}
    
+For versions after 13.4.1, you can directly edit your run script (whether from `runScriptSamples/` or otherwise).
+Replace the typical execution line in the script (where ``mpirun`` or ``srun`` is called) with the following:
+
+.. code-block:: console
+
+   $ time mpirun singularity exec ~/gchp.sif ./gchp >> ${log}
 
 You can now setup your run configuration as normal using `setCommonRunSettings.sh` and tweak Slurm parameters in your run script.
 
