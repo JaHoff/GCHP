@@ -299,20 +299,21 @@ Below is an example :file:`HISTORY.rc` that configures two output collection
    COLLECTIONS: 'Inst30minGases',
          'DailyAvgGasesAndNOEmissions',
    ::
-   Inst30minGases.template:    '%y4%m2%d2_%h2%n2z.nc4',
-   Inst30minGases.format:      'CFIO',
-   Inst30minGases.frequency:   003000
-   Inst30minGases.duration:    240000
-   Inst30minGases.mode:        'instantaneous'
-   Inst30minGases.grid_label:  RegionalGrid_US
-   Inst30minGases.levels:      1 2 3 4 5 6 7 8 9 10 11 12 13 14
-   Inst30minGases.fields:     'SpeciesConc_O3  ',  'GCHPchem',
-                              'SpeciesConc_NO  ',  'GCHPchem',
-                              'SpeciesConc_NO2 ',  'GCHPchem',
-                              'Met_BXHEIGHT    ',  'GCHPchem',
-                              'Met_AIRDEN      ',  'GCHPchem',
-                              'Met_AD          ',  'GCHPchem',
-                              'Met_PS1WET      ',  'GCHPchem',
+   Inst30minGases.template:     '%y4%m2%d2_%h2%n2z.nc4',
+   Inst30minGases.format:       'CFIO',
+   Inst30minGases.frequency:    003000
+   Inst30minGases.duration:     240000
+   Inst30minGases.mode:         'instantaneous'
+   Inst30minGases.grid_label:   RegionalGrid_US,
+   Inst30minGases.conservative: 1,
+   Inst30minGases.levels:       1 2 3 4 5 6 7 8 9 10 11 12 13 14
+   Inst30minGases.fields:      'SpeciesConc_O3  ',  'GCHPchem',
+                               'SpeciesConc_NO  ',  'GCHPchem',
+                               'SpeciesConc_NO2 ',  'GCHPchem',
+                               'Met_BXHEIGHT    ',  'GCHPchem',
+                               'Met_AIRDEN      ',  'GCHPchem',
+                               'Met_AD          ',  'GCHPchem',
+                               'Met_PS1WET      ',  'GCHPchem',
    ::
    DailyAvgGasesAndNOEmissions.template:     '%y4%m2%d2_%h2%n2z.nc4',
    DailyAvgGasesAndNOEmissions.format:       'CFIO',
